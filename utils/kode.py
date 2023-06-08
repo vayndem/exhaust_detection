@@ -1,7 +1,16 @@
 import cv2
 import numpy as np
 from PIL import Image
+import mysql.connector 
+import json 
 
+# create connection object 
+con = mysql.connector.connect( 
+host="localhost", user="root", 
+password="", database="knalpor") 
+ 
+# create cursor object 
+cursor = con.cursor() 
 
 
 def loadmodel(x="D:\\code\\data.onnx"):
@@ -95,7 +104,7 @@ def run(img):
         tex = "{}: {}".format(label, count)
 
 
-    return{
+    out={
        
        "image":{
             "file_name": filename,
@@ -107,3 +116,20 @@ def run(img):
 
     }
 
+
+    hasil=json.dumps({
+            "image":{
+                "file_name": filename,
+        },
+        "standart" :counter[1],
+        "non-standart": counter[0],
+
+        "total" : counter[:2]
+        })
+
+    insert1= "INSERT INTO data_kanlpot (json_data) VALUES (%s)"
+    nilai=(hasil,)
+    cursor.execute(insert1,nilai)
+    con.commit()
+
+    return out
