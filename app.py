@@ -75,24 +75,21 @@ def run(img):
     indices = cv2.dnn.NMSBoxes(boxes, confidences, 0.1, 0.1)
 
     for i in indices:
-        x1, y1, w, h = boxes[i]
-        class_id = classes_ids[i]
-        label = classes[class_id]
-        conf = confidences[i]
-        text = label + " ({:.2f})".format(conf)
+            x1,y1,w,h = boxes[i]
+            class_id = classes_ids[i]
+            label = classes[class_id]
+            conf = confidences[i]
+            text = label + " ({:.2f})".format(conf)
+            cv2.rectangle(img,(x1,y1),(x1+w,y1+h),(255,0,0),2)
+            cv2.putText(img, text, (x1,y1-2),cv2.FONT_HERSHEY_COMPLEX, 0.7,(0,0,255),2)
+            current_counter[class_id] += 1
 
-        current_counter[class_id] += 1
 
-        if label == "motor" and classes_ids.count(1) == 0:
-            counter[1] += 1
-
-    for i, count in enumerate(counter):
-        if classes_ids == 0:
-            counter[i] += current_counter[i]
-            if classes_ids == 0:
-                counter[1] += 2
-        else:
-            counter[i] = max(0, count)
+    if 0 in classes_ids and 2 in classes_ids:
+            counter[1] += sum(current_counter) -1
+    else:
+            for i, count in enumerate(counter):
+                counter[i] += current_counter[i]
 
     hasil = json.dumps({
         "image": {
