@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foto Terunggah</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        .hasil-deteksi {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .counter {
+        
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .counter pre {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Foto Terunggah</h1>
+    <img src="{{ url_for('static', filename=filename) }}" alt="Foto Terunggah">
+    
+    <div class="hasil-deteksi">
+        <h2>Hasil Deteksi:</h2>
+        <pre>{{ result }}</pre>
+    </div>
+    
+    <div class="counter">
+        <span>Standar:</span>
+        <pre>{{ standar }}</pre>
+    </div>
+    
+    <div class="counter">
+        <span>Non Standar:</span>
+        <pre>{{ non_standar }}</pre>
+    </div>
+</body>
+</html>
